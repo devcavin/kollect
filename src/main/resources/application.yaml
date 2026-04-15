@@ -1,3 +1,9 @@
 spring:
   application:
     name: kollect
+
+  credit-bank:
+    api:
+      base-url: ${BASE_URL}
+      app-id: ${APP_ID}
+      api-key: ${API_KEY}
