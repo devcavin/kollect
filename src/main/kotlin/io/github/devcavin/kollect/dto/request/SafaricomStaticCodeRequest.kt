@@ -7,5 +7,11 @@ data class SafaricomStaticCodeRequest(
     val RefNo: String,
 
     @field:NotNull(message = "Amount is required")
-    val Amount: String
+    val Amount: String,
+
+    @field:NotNull(message = "Merchant name is required")
+    val MerchantName: String,
+
+    @field:NotNull(message = "CPI is required")
+    val CPI: String
 )
