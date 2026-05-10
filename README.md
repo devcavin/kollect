@@ -30,12 +30,12 @@ A merchant-facing payment dashboard built on top of Credit Bank's CB Konnect API
 
 ### Payments (In Progress)
 
-| Method | Endpoint                    | Description                                                 | Status      |
-|--------|-----------------------------|-------------------------------------------------------------|-------------|
-| POST   | `/api/v1/payments/stk-push` | Initiate M-Pesa STK Push payment prompt on customer's phone | In progress |
-| POST   | `/api/v1/payments/callback` | Receive and process Safaricom payment confirmation          | In progress |
-| GET    | `/api/v1/payments/status`   | Check Pesalink transaction status                           | In progress |
-| GET    | `/api/v1/payments/qr-code`  | Generate Safaricom static QR code for merchant              | In progress |
+| Method | Endpoint                        | Description                                                 | Status      |
+|--------|---------------------------------|-------------------------------------------------------------|-------------|
+| POST   | `/api/v1/safaricon-stkpush`     | Initiate M-Pesa STK Push payment prompt on customer's phone | Working     |
+| POST   | `/api/v1/payments/callback`     | Receive and process Safaricom payment confirmation          | In progress |
+| GET    | `/api/v1/payments/status`       | Check Pesalink transaction status                           | In progress |
+| GET    | `/api/v1/safaricom-static-code` | Generate Safaricom static QR code for merchant              | In progress |
 
 ---
 
@@ -43,14 +43,14 @@ A merchant-facing payment dashboard built on top of Credit Bank's CB Konnect API
 
 This project consumes the following APIs from Credit Bank's CB Konnect developer platform:
 
-| API                           | Category      | Purpose                                                           |
-|-------------------------------|---------------|-------------------------------------------------------------------|
-| Balance Inquiry               | Accounts      | Merchant CBL wallet balance                                       |
-| Account Statement             | Accounts      | Transaction history by date range                                 |
-| Safaricom STK Push            | Receive Money | Trigger M-Pesa payment prompt on customer's phone *(in progress)* |
-| Safaricom Callback            | VAS           | Receive and handle payment confirmations *(in progress)*          |
-| Safaricom Static Code         | Receive Money | Generate merchant QR code for walk-in payments *(in progress)*    |
-| Pesalink Payment Status Check | Send Money    | Verify bank-to-bank transaction status *(in progress)*            |
+| API                           | Category      | Purpose                                                        |
+|-------------------------------|---------------|----------------------------------------------------------------|
+| Balance Inquiry               | Accounts      | Merchant CBL wallet balance                                    |
+| Account Statement             | Accounts      | Transaction history by date range                              |
+| Safaricom STK Push            | Receive Money | Trigger M-Pesa payment prompt on customer's phone              |
+| Safaricom Callback            | VAS           | Receive and handle payment confirmations *(in progress)*       |
+| Safaricom Static Code         | Receive Money | Generate merchant QR code for walk-in payments *(in progress)* |
+| Pesalink Payment Status Check | Send Money    | Verify bank-to-bank transaction status *(in progress)*         |
 
 ---
 
@@ -96,7 +96,7 @@ The API will be available at `http://localhost:8080`
 
 ### Balance Inquiry
 
-```bash
+```shell
 GET /api/v1/accounts/balance
 ```
 
@@ -113,7 +113,7 @@ GET /api/v1/accounts/balance
 
 ### Account Statement
 
-```bash
+```shell
 GET /api/v1/accounts/statement
 Content-Type: application/json
 
@@ -136,6 +136,58 @@ Content-Type: application/json
   "reference": "TXN-001",
   "description": "M-Pesa collection",
   "transactionCode": "CR"
+}
+```
+
+### Safaricom STK Push
+
+```shell
+GET /api/v1/accounts/safaricom-stkpush
+Content-Type: application/json
+
+{
+  "phoneNumber": "254700000000",
+  "amount": 1,
+  "reference": "AAwWEQ4Q2EEO",
+  "countryCode": "KE",
+  "narration": "InvoiceNumber",
+  "callBackUrl": "https://webhook.site/9e759bd7-5ea2-41d7-a825-7583ffc736cf",
+  "errorCallBackUrl": "https://webhook.site/9e759bd7-5ea2-41d7-a825-7583ffc73f6"
+}
+```
+
+**Response**
+
+```json
+{
+  "merchantRequestID": "AG_20191219_000043fdf61864fe9fh5",
+  "checkoutRequestID": "ws_CO_191220191020363945",
+  "responseCode": "QR Code Successfully Generated.",
+  "responseDescription": "Success. Request accepted for processing",
+  "customerMessage": "Success. Request accepted for processing"
+}
+```
+
+### Safaricom Static Code
+
+```shell
+GET /api/v1/accounts//safaricom-static-code
+Content-Type: application/json
+
+{
+  "RefNo": "AERDUDSODEF",
+  "Amount": 1
+}
+```
+
+**Response**
+
+```json
+{
+  "ResponseCode": "AG_20191219_000043fdf61864fe9ff5",
+  "RequestID": "16738-27456357-1",
+  "ResponseDescription": "QR Code Successfully Generated.",
+  "QRCode": "SYEEHEHJJSJSKKKSSSHDBDDBBHSHSBSBHSHSBBBXBXXB"
 }
 ```
 

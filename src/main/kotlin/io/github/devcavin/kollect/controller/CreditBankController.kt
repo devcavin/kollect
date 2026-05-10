@@ -1,8 +1,12 @@
 package io.github.devcavin.kollect.controller
 
 import io.github.devcavin.kollect.dto.request.AccountStatementRequest
+import io.github.devcavin.kollect.dto.request.SafaricomStaticCodeRequest
+import io.github.devcavin.kollect.dto.request.SafaricomStkPushRequest
 import io.github.devcavin.kollect.dto.response.AccountStatementResponse
 import io.github.devcavin.kollect.dto.response.BalanceInquiryResponse
+import io.github.devcavin.kollect.dto.response.SafaricomStaticCodeResponse
+import io.github.devcavin.kollect.dto.response.SafaricomStkPushResponse
 import io.github.devcavin.kollect.service.CreditBankService
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,7 +27,19 @@ class BalanceController(
 
     // account statement
     @GetMapping("/accounts/statement")
-    fun accountStatement(@Valid @RequestBody request: AccountStatementRequest): AccountStatementResponse {
+    fun accountStatement(@Valid @RequestBody request: AccountStatementRequest): List<AccountStatementResponse> {
         return creditBankService.accountStatement(request)
+    }
+
+    // safaricom stk push
+    @GetMapping("/safaricom-stkpush")
+    fun safaricomStkPush(@Valid @RequestBody request: SafaricomStkPushRequest): SafaricomStkPushResponse {
+        return creditBankService.safaricomStkPush(request)
+    }
+
+    // safaricom static code
+    @GetMapping("/safaricom-static-code")
+    fun safaricomStaticCode(@Valid @RequestBody request: SafaricomStaticCodeRequest): SafaricomStaticCodeResponse {
+        return creditBankService.safaricomStaticCode(request)
     }
 }
