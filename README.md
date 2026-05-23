@@ -33,8 +33,6 @@ A merchant-facing payment dashboard built on top of Credit Bank's CB Konnect API
 | Method | Endpoint                        | Description                                                 | Status      |
 |--------|---------------------------------|-------------------------------------------------------------|-------------|
 | POST   | `/api/v1/safaricon-stkpush`     | Initiate M-Pesa STK Push payment prompt on customer's phone | Working     |
-| POST   | `/api/v1/payments/callback`     | Receive and process Safaricom payment confirmation          | In progress |
-| GET    | `/api/v1/payments/status`       | Check Pesalink transaction status                           | In progress |
 | GET    | `/api/v1/safaricom-static-code` | Generate Safaricom static QR code for merchant              | In progress |
 
 ---
@@ -48,7 +46,6 @@ This project consumes the following APIs from Credit Bank's CB Konnect developer
 | Balance Inquiry               | Accounts      | Merchant CBL wallet balance                                    |
 | Account Statement             | Accounts      | Transaction history by date range                              |
 | Safaricom STK Push            | Receive Money | Trigger M-Pesa payment prompt on customer's phone              |
-| Safaricom Callback            | VAS           | Receive and handle payment confirmations *(in progress)*       |
 | Safaricom Static Code         | Receive Money | Generate merchant QR code for walk-in payments *(in progress)* |
 | Pesalink Payment Status Check | Send Money    | Verify bank-to-bank transaction status *(in progress)*         |
 
@@ -229,17 +226,6 @@ src/
         └── service/
             └── CreditBankService.kt      # CB Konnect API calls via RestClient
 ```
-
----
-
-## Roadmap
-
-- [ ] STK Push collection endpoint
-- [ ] Safaricom payment callback handler
-- [ ] Pesalink transaction status check
-- [ ] Static QR code generation
-- [ ] Merchant transaction ledger (aggregated view of collections)
-- [ ] Frontend dashboard UI
 
 ---
 
